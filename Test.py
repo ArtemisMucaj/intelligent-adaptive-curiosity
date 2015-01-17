@@ -222,7 +222,7 @@ while t < 1000:
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
 	vec = sphere.sphere_controller(actionChoisie[2],epuck_position)
 
-	if len(vec)!=0:
+	if isinstance(vec,type([])) and len(vec)!=0:
 		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
 		pass
 
@@ -238,8 +238,10 @@ while t < 1000:
 	# On ajoute E(t) a LE
 	T.LE.append(E)
 	# On calcul Em(t) et ajout a LEM
-	Em = moyenneMobile(T.LE,0,delay,t)
-	T.LEM.append(Em)
+	if t>delay+1:
+		Em = moyenneMobile(T.LE,0,delay,t)
+		T.LEM.append(Em)
+
 
 	# ajout dans la base de donnees de P
 	actionChoisie.pop()
@@ -248,6 +250,7 @@ while t < 1000:
 
 	splitBDD(T)
 	t+=1
+	print 'finnnnnnnnnnnnn'
 	pass
 
 

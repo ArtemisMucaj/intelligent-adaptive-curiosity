@@ -5,6 +5,19 @@ import tree
 import random
 import sphere
 
+import matplotlib.pyplot as plt
+
+def superPlot(Pbdd):
+	if Pbdd.dimCutVal == -1:
+		plt.plot(Pbdd.LE)
+	else:
+		superPlot(Pbdd.n1)
+		superPlot(Pbdd.n2)
+		pass
+	pass
+
+
+
 print("Salut je suis un programme Python !\n")
 
 def median(data):
@@ -99,11 +112,11 @@ def variance(data, dimension, separator):
 		m += data[x][dimension]
 		if data[x][dimension] > separator:
 			m_1 += data[x][dimension]
-			count_1++
+			count_1 += 1
 			pass
 		else:
 			m_2 += data[x][dimension]
-			count_2++
+			count_2 +=1
 			pass
 	m_1/=count_1
 	m_2/=count_2

@@ -86,7 +86,6 @@ while True:
 	err,epuck_position = vrep.simxGetObjectPosition(clientID, epuckHandle, -1, vrep.simx_opmode_streaming)
 	#creation des actions
 	for i in range(0,nbExemple):
-		########### add SM(t) a actions ###############
 		actions.append( [random.uniform(-5,5) , random.uniform(-5,5) , random.uniform(0,1),epuck_position[0],epuck_position[1] ] )
 		pass
 
@@ -102,10 +101,9 @@ while True:
 		for x in range(0,nbExemple):
 
 			Ep.append( kppv.kppv([actions[x], MPbdd,1]) ) #### probleme de taille entre actions[x] et la base de MPbdd
-			########## a faire ################
+
 			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
-			########## a faire ################
 			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay,actions[x]) ) , x] )
 			pass
 
@@ -142,12 +140,18 @@ while True:
 	actionChoisie.append(E)
 	MPbdd.append( actionChoisie )
 
-	######### On ajoute E(t) a LE ##########
+	# On ajoute E(t) a LE
 	T.LE.append(E)
-	######## On calcul Em(t) et ajout a LEM #########
+	# On calcul Em(t) et ajout a LEM
 	Em = moyenneMobile(T.LE,delay,t)
-	####### ajout dans la base de donnees de P ###########
+	T.LEM.append(Em)
+
+	# ajout dans la base de donnees de P
+	actionChoisie.pop()
+	actionChoisie.append(S_calculated)
 	T.data.append(ationChoisie)
+
+
 	pass
 
 

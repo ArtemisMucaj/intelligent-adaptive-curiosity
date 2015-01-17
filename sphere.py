@@ -14,14 +14,14 @@ def sphere_controller(frequency, pos_robot):
 		return 0
 	elif frequency > 0.66 and frequency <= 1:
 		# toy jumps on robot position (y axis is vertical axis)
-		return [pos_robot[0], pos_robot[1], 0.5]
+		return [pos_robot[0], pos_robot[1], 0.025]
 	else:
 		# frequency out of widthband
 		return 0
 
 def generate_random_position(min_width, min_length,max_width, max_length, pos_robot, radius):
 	while True:
-		generated_pos=[random.uniform(min_width,max_width), random.uniform(min_length,max_length), 0.5]
+		generated_pos=[random.uniform(min_width,max_width), random.uniform(min_length,max_length), 0.025]
 		if(isCollision(generated_pos, pos_robot, radius) == False):
 			return generated_pos
 

@@ -49,14 +49,15 @@ clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
 
 
 def getTheGoodLE(Pbdd,action):
+	#print type(Pbdd),type(Pbdd.cutval),type(Pbdd.dimCutVal),type(Pbdd.data),type(Pbdd.n1),type(Pbdd.n2),type(Pbdd.LE),type(Pbdd.LEM)################
 	if Pbdd.dimCutVal == -1:
 		return Pbdd.LE
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
-			getTheGoodLE(Pbdd.n1,action)
+			return getTheGoodLE(Pbdd.n1,action)
 			pass
 		else:
-			getTheGoodLE(Pbdd.n2,action)
+			return getTheGoodLE(Pbdd.n2,action)
 			pass
 		pass
 	pass
@@ -67,10 +68,10 @@ def getTheGoodLEM(Pbdd,i,action):
 		return Pbdd.LEM[i]
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
-			getTheGoodLEM(Pbdd.n1,i,action)
+			return getTheGoodLEM(Pbdd.n1,i,action)
 			pass
 		else:
-			getTheGoodLEM(Pbdd.n2,i,action)
+			return getTheGoodLEM(Pbdd.n2,i,action)
 			pass
 		pass
 	pass
@@ -81,10 +82,10 @@ def getTheGoodTree(Pbdd,action):
 		return Pbdd
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
-			getTheGoodTree(Pbdd.n1,action)
+			return getTheGoodTree(Pbdd.n1,action)
 			pass
 		else:
-			getTheGoodTree(Pbdd.n2,action)
+			return getTheGoodTree(Pbdd.n2,action)
 			pass
 		pass
 	pass
@@ -95,6 +96,7 @@ def C2_criterion(BDD):
 	cutValue = 0
 	var = 1000000
 	medianes = median(BDD.data)
+	#print 'medianes =',medianes########################
 	for x in range(0,len(medianes)):
 		v = variance(BDD.data, x, medianes[x])
 		if(v < var):
@@ -120,8 +122,11 @@ def variance(data, dimension, separator):
 			m_2 += data[x][dimension]
 			count_2 +=1
 			pass
+		#if dimension ==3:
+		#	print data[x][dimension]
+		#	pass
 
-	print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
+	#print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
 	m_1/=count_1
 	m_2/=count_2
 	m /= len(data)
@@ -129,6 +134,7 @@ def variance(data, dimension, separator):
 
 def splitBDD(BDD):
 	if len(BDD.data) > 249:
+		#print type(BDD),type(BDD.cutval),type(BDD.dimCutVal),type(BDD.data),type(BDD.n1),type(BDD.n2),type(BDD.LE),type(BDD.LEM)################
 		cutVals = C2_criterion(BDD)
 		BDD.n1 = tree.node(-1,-1,[],None,None,[],[])
 		BDD.n2 = tree.node(-1,-1,[],None,None,[],[])
@@ -172,12 +178,20 @@ MPbdd = []
 
 while t < 1000:
 
+
+
 	actions = []
 
-	err,epuck_position = vrep.simxGetObjectPosition(clientID, epuckHandle, -1, vrep.simx_opmode_streaming)
+	if t==0:
+		err,epuck_position = vrep.simxGetObjectPosition(clientID, epuckHandle, -1, vrep.simx_opmode_streaming)
+	else:
+		err,epuck_position = vrep.simxGetObjectPosition(clientID, epuckHandle, -1, vrep.simx_opmode_buffer)
+		pass
+
+
 	#creation des actions
 	for i in range(0,nbExemple):
-		actions.append( [random.uniform(-5,5) , random.uniform(-5,5) , random.uniform(0,1),epuck_position[0],epuck_position[1] ] )
+		actions.append( [random.uniform(-5,5) , random.uniform(-5,5) , random.uniform(0,1)] )
 		pass
 
 	if t<delay:
@@ -225,20 +239,27 @@ while t < 1000:
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
 	vec = sphere.sphere_controller(actionChoisie[2],epuck_position)
 
+
+
 	if isinstance(vec,type([])) and len(vec)!=0:
 		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
 		pass
 
 
 	# On calcule E(t)
-	err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
+	if t ==0:
+		err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,sphereHandle, -1, vrep.simx_opmode_streaming)
+	else:
+		err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,sphereHandle, -1, vrep.simx_opmode_buffer)
+
+
 	S_calculated = sqrt((epuck_position[0] - spherePosition[0])**2 + (epuck_position[1] - spherePosition[1])**2)
 	E = abs(S_predicted - S_calculated);
 	#ajout a la base de donnees de MP
 	actionChoisie.append(E)
 	MPbdd.append( actionChoisie )
 
-	print 'f =',actionChoisie[2],'S_calculated =',S_calculated###################################
+	#print 'f =',actionChoisie[2],'S_calculated =',S_calculated###################################
 
 	# On ajoute E(t) a LE
 	T.LE.append(E)
@@ -249,17 +270,19 @@ while t < 1000:
 		Em = moyenneMobile(T.LE,0,t,t)
 	T.LEM.append(Em)
 
-
+	#print 'actionChoisie = ',actionChoisie #################
 	# ajout dans la base de donnees de P
 	actionChoisie.pop()
 	actionChoisie.append(S_calculated)
 	T.data.append(actionChoisie)
 
+	#print 'actionChoisie = ',actionChoisie##################
+
 	splitBDD(T)
 
 	print 't =',t##########################
 	t+=1
-	time.sleep(1)
+	#time.sleep(1)
 	pass
 
 

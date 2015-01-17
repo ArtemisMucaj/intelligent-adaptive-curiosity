@@ -7,6 +7,18 @@ import sphere
 
 print("Salut je suis un programme Python !\n")
 
+def median(data):
+	listTmp = []
+	med = []
+	for i in range(0,len(data[0])):
+
+		for x in range(0,len(data)):
+			listTmp.append(data[x][i])
+			pass
+		listTmp.sort()
+		med.append(listTmp[len(listTmp)/2])
+		pass
+	return med
 
 def moyenneMobile(list,x_n,delay,t):
 	moy = x_n

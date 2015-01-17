@@ -211,7 +211,7 @@ while t < 1000:
 	# Estimation de S(t+1)
 	T= getTheGoodTree(Pbdd,actionChoisie)
 
-	S_predicted = kppv.kppv(actionChoisie,T.data,2)
+
 	if len(T.data) > 2:
 		S_predicted = kppv.kppv(actionChoisie,T.data,2)
 	else:

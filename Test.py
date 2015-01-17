@@ -125,7 +125,7 @@ def variance(data, dimension, separator):
 	return (1/2)*((m_1 - m)**2 + (m_2 - m)**2)
 
 def splitBDD(BDD):
-	if BDD.data.length > 249:
+	if len(BDD.data) > 249:
 		cutVals = C2_criterion(BDD)
 		BDD.n1 = tree.node(-1,-1,[],None,None,[],[])
 		BDD.n2 = tree.node(-1,-1,[],None,None,[],[])
@@ -229,7 +229,7 @@ while t < 1000:
 
 	# On calcule E(t)
 	err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
-	S_calculated = sqrt((epuck_position[0] - spherePosition[0]**2 + (epuck_position[1] - spherePosition[1])**2))
+	S_calculated = sqrt((epuck_position[0] - spherePosition[0])**2 + (epuck_position[1] - spherePosition[1])**2)
 	E = abs(S_predicted - S_calculated);
 	#ajout a la base de donnees de MP
 	actionChoisie.append(E)

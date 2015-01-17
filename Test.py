@@ -89,9 +89,8 @@ def C2_criterion(BDD):
 		pass
 	return [cutValue, dim]
 
-<<<<<<< Updated upstream
 def splitBDD(BDD):
-	if BDD.data.length > 249
+	if BDD.data.length > 249:
 		cutVals = C2_criterion(BDD)
 		for x in range(0,249):
 			if(BDD.data[x][cutVals[1]] > cutVals):
@@ -102,9 +101,7 @@ def splitBDD(BDD):
 			pass
 	else:
 		pass
-=======
 
->>>>>>> Stashed changes
 
 
 t=0

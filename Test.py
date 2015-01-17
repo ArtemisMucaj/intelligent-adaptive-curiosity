@@ -5,6 +5,7 @@ import tree
 import random
 import sphere
 from math import sqrt
+import time
 
 import matplotlib.pyplot as plt
 
@@ -92,12 +93,12 @@ def getTheGoodTree(Pbdd,action):
 def C2_criterion(BDD):
 	dim = 0
 	cutValue = 0
-	variance = 1000000
+	var = 1000000
 	medianes = median(BDD.data)
 	for x in range(0,len(medianes)):
 		v = variance(BDD.data, x, medianes[x])
-		if(v < variance):
-			variance = v
+		if(v < var):
+			var = v
 			dim = x
 			cutValue = medianes[x]
 		pass
@@ -119,6 +120,8 @@ def variance(data, dimension, separator):
 			m_2 += data[x][dimension]
 			count_2 +=1
 			pass
+
+	print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
 	m_1/=count_1
 	m_2/=count_2
 	m /= len(data)
@@ -235,12 +238,16 @@ while t < 1000:
 	actionChoisie.append(E)
 	MPbdd.append( actionChoisie )
 
+	print 'f =',actionChoisie[2],'S_calculated =',S_calculated###################################
+
 	# On ajoute E(t) a LE
 	T.LE.append(E)
 	# On calcul Em(t) et ajout a LEM
-	if t>delay+1:
+	if t>delay:
 		Em = moyenneMobile(T.LE,0,delay,t)
-		T.LEM.append(Em)
+	else:
+		Em = moyenneMobile(T.LE,0,t,t)
+	T.LEM.append(Em)
 
 
 	# ajout dans la base de donnees de P
@@ -249,8 +256,10 @@ while t < 1000:
 	T.data.append(actionChoisie)
 
 	splitBDD(T)
+
+	print 't =',t##########################
 	t+=1
-	print 'finnnnnnnnnnnnn'
+	time.sleep(1)
 	pass
 
 

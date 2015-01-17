@@ -2,9 +2,10 @@
 
 class node(object):
 	"""docstring for node"""
-	def __init__(self, cutval,data,n1,n2,LE,LEM):
+	def __init__(self, cutval,dimCutVal,data,n1,n2,LE,LEM):
 		super(node, self).__init__()
 		self.cutval = cutval
+		self.dimCutVal = dimCutVal
 		self.n1 = n1
 		self.n2 = n2
 		self.data = data

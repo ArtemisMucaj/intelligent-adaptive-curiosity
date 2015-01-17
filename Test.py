@@ -24,7 +24,6 @@ clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
 t=0
 delay = 150
 nbExemple = 20
-cutval = 10
 
 err_world, worldHandle = vrep.simxGetObjectHandle(clientID,"world", vrep.simx_opmode_oneshot_wait)
 err_epuck, epuckHandle = vrep.simxGetObjectHandle(clientID,"ePuck", vrep.simx_opmode_oneshot_wait)
@@ -34,7 +33,7 @@ err_right,rightHandle = vrep.simxGetObjectHandle(clientID,"ePuck_rightJoint",vre
 
 
 
-Pbdd = tree.node(cutval,[],None,None,[],[])
+Pbdd = tree.node(-1,-1,[],None,None,[],[])
 
 MPbdd = []
 

@@ -170,7 +170,7 @@ while True:
 	# ajout dans la base de donnees de P
 	actionChoisie.pop()
 	actionChoisie.append(S_calculated)
-	T.data.append(ationChoisie)
+	T.data.append(actionChoisie)
 
 
 	pass

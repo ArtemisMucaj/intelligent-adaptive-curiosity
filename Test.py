@@ -143,10 +143,11 @@ while True:
 	MPbdd.append( actionChoisie )
 
 	######### On ajoute E(t) a LE ##########
-
+	T.LE.append(E)
 	######## On calcul Em(t) et ajout a LEM #########
-
+	Em = moyenneMobile(T.LE,delay,t)
 	####### ajout dans la base de donnees de P ###########
+	T.data.append(ationChoisie)
 	pass
 
 

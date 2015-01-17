@@ -89,6 +89,27 @@ def C2_criterion(BDD):
 		pass
 	return [cutValue, dim]
 
+def variance(data, dimension, separator):
+	m = 0
+	m_1 = 0
+	m_2 = 0
+	count_1 = 0
+	count_2 = 0
+	for x in range(0,len(data)):
+		m += data[x][dimension]
+		if data[x][dimension] > separator:
+			m_1 += data[x][dimension]
+			count_1++
+			pass
+		else:
+			m_2 += data[x][dimension]
+			count_2++
+			pass
+	m_1/=count_1
+	m_2/=count_2
+	m /= len(data)
+	return (1/2)*((m_1 - m)**2 + (m_2 - m)**2)
+
 def splitBDD(BDD):
 	if BDD.data.length > 249:
 		cutVals = C2_criterion(BDD)

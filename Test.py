@@ -91,8 +91,10 @@ while True:
 		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
 		pass
 
-	######### On calcule E(t) ############
 
+	######### On calcule E(t) ############
+	S_calculated = epuck_position - vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
+	E = abs(S_predicted - S_calculated);
 	#ajout a la base de donnees de MP
 	actionChoisie.append(E)
 	MPbdd.append( actionChoisie )

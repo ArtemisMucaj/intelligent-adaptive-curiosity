@@ -1,5 +1,4 @@
-
-
+# Tree structure for IAC algorithm
 class node(object):
 	"""docstring for node"""
 	def __init__(self, cutval,dimCutVal,data,n1,n2,LE,LEM):
@@ -22,6 +21,5 @@ class node(object):
 
 '''
 test = node(10,1,1,1)
-
 test.display()
 '''

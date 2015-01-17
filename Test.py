@@ -209,7 +209,7 @@ while t < 1000:
 
 	# Estimation de S(t+1)
 	T= getTheGoodTree(Pbdd,actionChoisie)
-	S_predicted = kppv.kppv(actionChoisie,T.data,2)
+	S_predicted = kppv.kppv([actionChoisie,T.data,2)
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
@@ -221,7 +221,8 @@ while t < 1000:
 
 
 	# On calcule E(t)
-	S_calculated = epuck_position - vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
+	err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
+	S_calculated = sqrt((epuck_position[0] - spherePosition[0]**2 + (epuck_position[1] - spherePosition[1])**2))
 	E = abs(S_predicted - S_calculated);
 	#ajout a la base de donnees de MP
 	actionChoisie.append(E)

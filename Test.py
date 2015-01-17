@@ -209,16 +209,13 @@ while t < 1000:
 
 	# Estimation de S(t+1)
 	T= getTheGoodTree(Pbdd,actionChoisie)
-<<<<<<< HEAD
+
 	S_predicted = kppv.kppv([actionChoisie,T.data,2)
-=======
 	if len(T.data) > 2:
 		S_predicted = kppv.kppv(actionChoisie,T.data,2)
 	else:
 		S_predicted = 0
 		pass
-
->>>>>>> cf9362ed9c003e214b85be52433d1c3b453c5f2f
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)

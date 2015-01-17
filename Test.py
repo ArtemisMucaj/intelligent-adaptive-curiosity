@@ -187,7 +187,7 @@ while t < 1000:
 		LP = []
 		for x in range(0,nbExemple):
 
-			Ep.append( kppv.kppv([actions[x], MPbdd,1]) ) #### probleme de taille entre actions[x] et la base de MPbdd
+			Ep.append( kppv.kppv(actions[x], MPbdd,1) ) #### probleme de taille entre actions[x] et la base de MPbdd
 
 			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
@@ -209,7 +209,12 @@ while t < 1000:
 
 	# Estimation de S(t+1)
 	T= getTheGoodTree(Pbdd,actionChoisie)
-	S_predicted = kppv.kppv(actionChoisie,T.data,2)
+	if len(T.data) > 2:
+		S_predicted = kppv.kppv(actionChoisie,T.data,2)
+	else:
+		S_predicted = 0
+		pass
+
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)

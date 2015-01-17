@@ -87,10 +87,10 @@ while True:
 		for x in range(0,nbExemple):
 
 			Ep.append( kppv.kppv([actions[x], MPbdd,1]) ) #### probleme de taille entre actions[x] et la base de MPbdd
-			########## a faire ################
+
 			Emtplusun.append( moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
-			########## a faire ################
+
 			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay,actions[x]) ) , x] )
 			pass
 

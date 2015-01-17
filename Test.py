@@ -63,6 +63,27 @@ def getTheGoodTree(Pbdd,action):
 	pass
 
 
+def C2_criterion(BDD):
+	dim = 0
+	cutValue = 0
+	variance = 1000000
+	medianes = median(BDD.data)
+	for x in range(0,len(medianes)):
+		v = variance(BDD.data, x, medianes[x])
+		if(v < variance)
+			variance = v
+			dim = x
+			cutValue = medianes[x]
+		pass
+	return [cutValue, dim]
+
+def splitBDD(BDD):
+	if BDD.data.length > 249
+
+	else:
+		pass
+
+
 t=0
 delay = 150
 nbExemple = 20

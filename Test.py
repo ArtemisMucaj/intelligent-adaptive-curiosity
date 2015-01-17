@@ -88,7 +88,7 @@ while True:
 
 			Ep.append( kppv.kppv([actions[x], MPbdd,1]) ) #### probleme de taille entre actions[x] et la base de MPbdd
 			########## a faire ################
-			Emtplusun.append( moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
+			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
 			########## a faire ################
 			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay,actions[x]) ) , x] )
@@ -108,7 +108,7 @@ while True:
 	#On a choisi l'action
 
 	########## Estimation de S(t+1) ###############
-
+	kppv.kppv(actionChoisie
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)

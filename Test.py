@@ -93,7 +93,11 @@ def splitBDD(BDD):
 	if BDD.data.length > 249
 		cutVals = C2_criterion(BDD)
 		for x in range(0,249):
-
+			if(BDD.data[x][cutVals[1]] > cutVals):
+				BDD.n1.append(BDD.data[x])
+			else:
+				BDD.n2.append(BDD.data[x])
+				pass
 			pass
 	else:
 		pass

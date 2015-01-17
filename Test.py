@@ -166,7 +166,7 @@ Pbdd = tree.node(-1,-1,[],None,None,[],[])
 
 MPbdd = []
 
-while True:
+while t < 1000:
 
 	actions = []
 
@@ -239,7 +239,7 @@ while True:
 	T.data.append(actionChoisie)
 
 	splitBDD(T)
-
+	t+=1
 	pass
 
 

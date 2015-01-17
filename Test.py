@@ -70,7 +70,7 @@ def C2_criterion(BDD):
 	medianes = median(BDD.data)
 	for x in range(0,len(medianes)):
 		v = variance(BDD.data, x, medianes[x])
-		if(v < variance)
+		if(v < variance):
 			variance = v
 			dim = x
 			cutValue = medianes[x]
@@ -79,7 +79,10 @@ def C2_criterion(BDD):
 
 def splitBDD(BDD):
 	if BDD.data.length > 249
+		cutVals = C2_criterion(BDD)
+		for x in range(0,249):
 
+			pass
 	else:
 		pass
 

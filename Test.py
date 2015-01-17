@@ -204,6 +204,7 @@ while True:
 	actionChoisie.append(S_calculated)
 	T.data.append(actionChoisie)
 
+	splitBDD(T)
 
 	pass
 

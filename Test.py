@@ -108,7 +108,6 @@ while True:
 	#On a choisi l'action
 
 	########## Estimation de S(t+1) ###############
-	kppv.kppv(actionChoisie
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)

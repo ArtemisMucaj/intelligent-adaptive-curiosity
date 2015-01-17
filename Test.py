@@ -20,6 +20,19 @@ vrep.simxFinish(-1) # just in case, close all opened connections
 clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
 
 
+def getTheGoodLE(Pbdd,action):
+	if Pbdd.dimCutVal == -1:
+		return Pbdd.LE
+	else:
+		if action[Pbdd.dimCutVal] < Pbdd.cutval:
+			getTheGoodLE(Pbdd.n1,action)
+			pass
+		else:
+			getTheGoodLE(Pbdd.n2,action)
+			pass
+		pass
+	pass
+
 
 t=0
 delay = 150
@@ -61,7 +74,7 @@ while True:
 
 			Ep.append( kppv.kppv([actions[x], MPbdd,1]) ) #### probleme de taille entre actions[x] et la base de MPbdd
 			########## a faire ################
-			Emtplusun.append( moyenneMobile(getTheGoodLE(Pbdd),Ep[x],delay,t) )
+			Emtplusun.append( moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
 			########## a faire ################
 			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay) ) , x] )

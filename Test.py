@@ -34,6 +34,20 @@ def getTheGoodLE(Pbdd,action):
 	pass
 
 
+def getTheGoodLEM(Pbdd,i,action):
+	if Pbdd.dimCutVal == -1:
+		return Pbdd.LEM[i]
+	else:
+		if action[Pbdd.dimCutVal] < Pbdd.cutval:
+			getTheGoodLEM(Pbdd.n1,i,action)
+			pass
+		else:
+			getTheGoodLEM(Pbdd.n2,i,action)
+			pass
+		pass
+	pass
+
+
 t=0
 delay = 150
 nbExemple = 20
@@ -77,7 +91,7 @@ while True:
 			Emtplusun.append( moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
 
 			########## a faire ################
-			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay) ) , x] )
+			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay,actions[x]) ) , x] )
 			pass
 
 		LP.sort()

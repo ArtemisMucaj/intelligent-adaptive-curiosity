@@ -123,7 +123,8 @@ while True:
 	#On a choisi l'action
 
 	# Estimation de S(t+1)
-	S_predicted = kppv.kppv(actionChoisie,getTheGoodData(Pbdd,actionChoisie),2)
+	T= getTheGoodTree(Pbdd,actionChoisie)
+	S_predicted = kppv.kppv(actionChoisie,T.data,2)
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)

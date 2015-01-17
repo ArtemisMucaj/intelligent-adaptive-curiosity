@@ -238,7 +238,7 @@ while t < 1000:
 	# On ajoute E(t) a LE
 	T.LE.append(E)
 	# On calcul Em(t) et ajout a LEM
-	Em = moyenneMobile(T.LE,delay,t)
+	Em = moyenneMobile(T.LE,0,delay,t)
 	T.LEM.append(Em)
 
 	# ajout dans la base de donnees de P

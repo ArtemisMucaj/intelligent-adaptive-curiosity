@@ -92,13 +92,25 @@ def C2_criterion(BDD):
 def splitBDD(BDD):
 	if BDD.data.length > 249:
 		cutVals = C2_criterion(BDD)
+		BDD.n1 = tree.node(-1,-1,[],None,None,[],[])
+		BDD.n2 = tree.node(-1,-1,[],None,None,[],[])
 		for x in range(0,249):
-			if(BDD.data[x][cutVals[1]] > cutVals):
-				BDD.n1.append(BDD.data[x])
+			if(BDD.data[x][cutVals[1]] > cutVals[0]):
+				BDD.n1.data.append(BDD.data[x])
 			else:
-				BDD.n2.append(BDD.data[x])
+				BDD.n2.data.append(BDD.data[x])
 				pass
 			pass
+		BDD.cutval = cutVals[0]
+		BDD.dimCutVal = cutVals[1]
+
+		BDD.n1.LE = BDD.LE
+		BDD.n2.LEM = BDD.LEM
+
+		#supp de DATA LE et LEM du pere
+		BDD.LE = []
+		BDD.LEM = []
+		BDD.DATA = []
 	else:
 		pass
 

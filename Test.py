@@ -3,6 +3,7 @@ import vrep
 import kppv
 import tree
 import random
+import sphere
 
 print("Salut je suis un programme Python !\n")
 
@@ -37,6 +38,20 @@ def getTheGoodLE(Pbdd,action):
 def getTheGoodLEM(Pbdd,i,action):
 	if Pbdd.dimCutVal == -1:
 		return Pbdd.LEM[i]
+	else:
+		if action[Pbdd.dimCutVal] < Pbdd.cutval:
+			getTheGoodLEM(Pbdd.n1,i,action)
+			pass
+		else:
+			getTheGoodLEM(Pbdd.n2,i,action)
+			pass
+		pass
+	pass
+
+
+def getTheGoodData(Pbdd,action):
+	if Pbdd.dimCutVal == -1:
+		return Pbdd.data
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
 			getTheGoodLEM(Pbdd.n1,i,action)

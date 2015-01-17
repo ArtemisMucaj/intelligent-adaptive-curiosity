@@ -49,15 +49,15 @@ def getTheGoodLEM(Pbdd,i,action):
 	pass
 
 
-def getTheGoodData(Pbdd,action):
+def getTheGoodTree(Pbdd,action):
 	if Pbdd.dimCutVal == -1:
-		return Pbdd.data
+		return Pbdd
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
-			getTheGoodLEM(Pbdd.n1,i,action)
+			getTheGoodTree(Pbdd.n1,action)
 			pass
 		else:
-			getTheGoodLEM(Pbdd.n2,i,action)
+			getTheGoodTree(Pbdd.n2,action)
 			pass
 		pass
 	pass
@@ -122,7 +122,7 @@ while True:
 
 	#On a choisi l'action
 
-	########## Estimation de S(t+1) ###############
+	# Estimation de S(t+1)
 	S_predicted = kppv.kppv(actionChoisie,getTheGoodData(Pbdd,actionChoisie),2)
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
@@ -134,7 +134,7 @@ while True:
 		pass
 
 
-	######### On calcule E(t) ############
+	# On calcule E(t)
 	S_calculated = epuck_position - vrep.simxGetObjectPosition(clientID,epuckHandle, -1, vrep.simx_opmode_streaming)
 	E = abs(S_predicted - S_calculated);
 	#ajout a la base de donnees de MP

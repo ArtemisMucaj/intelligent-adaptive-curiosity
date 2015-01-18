@@ -1,7 +1,7 @@
 import random
 from math import sqrt
 
-def sphere_controller(frequency, pos_robot):
+def toy_controller(frequency, pos_robot):
 	# Computes the next toy position depending on the robot fractions
 	# returns [x, y ,z] coordinates of the toy
 	# action = [motorLeft, motorRight, frequency]
@@ -33,7 +33,7 @@ def isCollision(generated_pos, pos_robot, radius):
 
 def unitTest():
 	frequency = 0.1
-	output = sphere_controller(frequency, [1.5,0.5,2.5]);
+	output = toy_controller(frequency, [1.5,0.5,2.5]);
 	print "frequency :", frequency, ", robot position : ", [1.5,0.5,2.5]
 	print "output is", output
 	return

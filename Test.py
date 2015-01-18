@@ -110,7 +110,7 @@ def C2_criterion(BDD):
 	var = 100000
 	medianes = median(BDD.data)
 	#print 'medianes =',medianes########################
-	for x in range(0,len(medianes)-1):
+	for x in range(0,len(medianes)):
 		v = variance(BDD.data, x, medianes[x])
 		if(v < var):
 			var = v
@@ -191,6 +191,7 @@ Pbdd = tree.node(-1,-1,[],None,None,[],[])
 
 MPbdd = []
 
+S_calculated = 0
 
 while t < duree:
 
@@ -210,7 +211,7 @@ while t < duree:
 
 	#creation des actions
 	for i in range(0,nbExemple):
-		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1)] )
+		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1), S_calculated] )
 		pass
 
 
@@ -245,6 +246,7 @@ while t < duree:
 
 	#On a choisi l'action
 
+
 	# Estimation de S(t+1)
 	T= getTheGoodTree(Pbdd,actionChoisie)
 
@@ -254,6 +256,8 @@ while t < duree:
 	else:
 		S_predicted = 0
 		pass
+
+
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
@@ -274,8 +278,16 @@ while t < duree:
 
 
 	S_calculated = sqrt((epuck_position[0] - spherePosition[0])**2 + (epuck_position[1] - spherePosition[1])**2)
-	E = abs(S_predicted - S_calculated);
+
+
+
+	E = abs(S_predicted - S_calculated)
 	#ajout a la base de donnees de MP
+
+
+	actionChoisie.pop()
+
+
 	actionChoisie.append(E)
 	MPbdd.append( actionChoisie )
 
@@ -312,7 +324,7 @@ superPlot(Pbdd)
 plt.show()
 
 
-
+'''
 while True:
 	actions = []
 	listS = []
@@ -339,7 +351,7 @@ while True:
 		pass
 
 	pass
-
+'''
 
 
 vrep.simxFinish(clientID)

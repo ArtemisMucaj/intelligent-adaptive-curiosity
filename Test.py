@@ -14,9 +14,10 @@ import matplotlib.pyplot as plt
 t=0
 delay = 150
 nbExemple = 20
-duree = 1000
-c1 = 250
-varKppv = 50
+duree = 1000#1500
+c1 = 300
+varKppv = 10
+vitRobot = 1
 
 
 
@@ -211,7 +212,7 @@ while t < duree:
 
 	#creation des actions
 	for i in range(0,nbExemple):
-		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1), S_calculated] )
+		actions.append( [random.uniform(-vitRobot,vitRobot) , random.uniform(-vitRobot,vitRobot) , random.uniform(0,1), S_calculated] )
 		pass
 
 

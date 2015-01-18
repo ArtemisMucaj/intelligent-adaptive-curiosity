@@ -10,6 +10,16 @@ import time
 
 import matplotlib.pyplot as plt
 
+
+t=0
+delay = 150
+nbExemple = 20
+duree = 1000
+c1 = 250
+varKppv = 50
+
+
+
 def superPlot(Pbdd):
 	if Pbdd.dimCutVal == -1:
 		plt.plot(Pbdd.LEM)
@@ -168,13 +178,6 @@ def splitBDD(BDD):
 		pass
 
 
-
-t=0
-delay = 150
-nbExemple = 20
-duree = 1000
-c1 = 250
-varKppv = 50
 
 err_world, worldHandle = vrep.simxGetObjectHandle(clientID,"world", vrep.simx_opmode_oneshot_wait)
 err_epuck, epuckHandle = vrep.simxGetObjectHandle(clientID,"ePuck", vrep.simx_opmode_oneshot_wait)

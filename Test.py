@@ -150,6 +150,8 @@ def splitBDD(BDD):
 		BDD.dimCutVal = cutVals[1]
 
 		BDD.n1.LE = BDD.LE
+		BDD.n1.LEM = BDD.LEM
+		BDD.n2.LE = BDD.LE
 		BDD.n2.LEM = BDD.LEM
 
 		#supp de DATA LE et LEM du pere

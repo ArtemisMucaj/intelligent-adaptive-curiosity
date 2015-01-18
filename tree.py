@@ -19,7 +19,7 @@ class node(object):
 		print "data =",self.data
 		pass
 
-def status(tree,nbTab):
+def status(tree,nbTab=0):
 	for x in range(0,nbTab):
 		print '    ',
 		pass

@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 def superPlot(Pbdd):
 	if Pbdd.dimCutVal == -1:
-		plt.plot(Pbdd.LE)
+		plt.plot(Pbdd.LEM)
 	else:
 		superPlot(Pbdd.n1)
 		superPlot(Pbdd.n2)
@@ -36,10 +36,10 @@ def median(data):
 		pass
 	return med
 
-def moyenneMobile(list,x_n,delay,t):
+def moyenneMobile(list,x_n,delay):
 	moy = x_n
 	for i in range(1,delay+1):
-		moy += list[t-i]
+		moy += list[len(list)-i]
 		pass
 	moy /= delay + 1
 	return moy
@@ -50,6 +50,7 @@ clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
 
 
 def getTheGoodLE(Pbdd,action):
+	#tree.status(Pbdd)##########################
 	#print type(Pbdd),type(Pbdd.cutval),type(Pbdd.dimCutVal),type(Pbdd.data),type(Pbdd.n1),type(Pbdd.n2),type(Pbdd.LE),type(Pbdd.LEM)################
 	if Pbdd.dimCutVal == -1:
 		return Pbdd.LE
@@ -66,7 +67,7 @@ def getTheGoodLE(Pbdd,action):
 
 def getTheGoodLEM(Pbdd,i,action):
 	if Pbdd.dimCutVal == -1:
-		return Pbdd.LEM[i]
+		return Pbdd.LEM[len(Pbdd.LE)-(i+1)]
 	else:
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
 			return getTheGoodLEM(Pbdd.n1,i,action)
@@ -181,7 +182,7 @@ Pbdd = tree.node(-1,-1,[],None,None,[],[])
 MPbdd = []
 
 
-while t < 700:
+while t < 5000:
 
 
 
@@ -212,9 +213,9 @@ while t < 700:
 
 			Ep.append( kppv.kppv(actions[x], MPbdd,1) ) #### probleme de taille entre actions[x] et la base de MPbdd
 
-			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay,t) )
+			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay) )
 
-			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,t-delay,actions[x]) ) , x] )
+			LP.append( [-(Emtplusun[x] - getTheGoodLEM(Pbdd,delay,actions[x]) ) , x] )
 			pass
 
 		LP.sort()
@@ -270,9 +271,9 @@ while t < 700:
 	T.LE.append(E)
 	# On calcul Em(t) et ajout a LEM
 	if t>delay:
-		Em = moyenneMobile(T.LE,0,delay,t)
+		Em = moyenneMobile(T.LE,0,delay)
 	else:
-		Em = moyenneMobile(T.LE,0,t,t)
+		Em = moyenneMobile(T.LE,0,t)
 	T.LEM.append(Em)
 
 	#print 'actionChoisie = ',actionChoisie #################
@@ -290,65 +291,13 @@ while t < 700:
 	#time.sleep(1)
 	pass
 
-tree.status(Pbdd,0)
+#tree.status(Pbdd,0)#################
 
-#superPlot(Pbdd)
+superPlot(Pbdd)
 
-#plt.show()
+plt.show()
 
 vrep.simxFinish(clientID)
 
-'''
-vrep.simxFinish(-1) # just in case, close all opened connections
-clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
-if clientID!=-1:
-	print 'Connected to remote API server'
-	res,objs=vrep.simxGetObjects(clientID,vrep.sim_handle_all,vrep.simx_opmode_oneshot_wait)
-	if res==vrep.simx_return_ok:
-		print 'Number of objects in the scene: ',len(objs)
-	else:
-		print 'Remote API function call returned with error code: ',res
 
-
-
-	err,leftMotor=vrep.simxGetObjectHandle(clientID,'ePuck_leftJoint',vrep.simx_opmode_oneshot_wait)
-	err,rightMotor=vrep.simxGetObjectHandle(clientID,'ePuck_rightJoint',vrep.simx_opmode_oneshot_wait)
-	err,sensor2 = vrep.simxGetObjectHandle(clientID,'ePuck_proxSensor2',vrep.simx_opmode_oneshot_wait)
-	err,sensor3 = vrep.simxGetObjectHandle(clientID,'ePuck_proxSensor3',vrep.simx_opmode_oneshot_wait)
-	err,sensor4 = vrep.simxGetObjectHandle(clientID,'ePuck_proxSensor4',vrep.simx_opmode_oneshot_wait)
-	err,sensor5 = vrep.simxGetObjectHandle(clientID,'ePuck_proxSensor5',vrep.simx_opmode_oneshot_wait)
-
-	first = True
-
-	while True :
-		if first :
-			dist2=vrep.simxReadProximitySensor(clientID,sensor2,vrep.simx_opmode_streaming)
-			dist3=vrep.simxReadProximitySensor(clientID,sensor3,vrep.simx_opmode_streaming)
-			dist4=vrep.simxReadProximitySensor(clientID,sensor4,vrep.simx_opmode_streaming)
-			dist5=vrep.simxReadProximitySensor(clientID,sensor5,vrep.simx_opmode_streaming)
-		else:
-			dist2=vrep.simxReadProximitySensor(clientID,sensor2,vrep.simx_opmode_buffer)
-			dist3=vrep.simxReadProximitySensor(clientID,sensor3,vrep.simx_opmode_buffer)
-			dist4=vrep.simxReadProximitySensor(clientID,sensor4,vrep.simx_opmode_buffer)
-			dist5=vrep.simxReadProximitySensor(clientID,sensor5,vrep.simx_opmode_buffer)
-
-		if dist3[1] == True | dist2[1] == True:
-			vrep.simxSetJointTargetVelocity(clientID,leftMotor,2,vrep.simx_opmode_oneshot)
-			vrep.simxSetJointTargetVelocity(clientID,rightMotor,-2,vrep.simx_opmode_oneshot)
-		else:
-			#if dist4 == True:
-			#	vrep.simxSetJointTargetVelocity(clientID,leftMotor,-1,vrep.simx_opmode_oneshot)
-			#	vrep.simxSetJointTargetVelocity(clientID,rightMotor,1,vrep.simx_opmode_oneshot)
-			#else:
-			vrep.simxSetJointTargetVelocity(clientID,leftMotor,2,vrep.simx_opmode_oneshot)
-			vrep.simxSetJointTargetVelocity(clientID,rightMotor,2.1,vrep.simx_opmode_oneshot)
-
-
-
-	vrep.simxFinish(clientID)
-else:
-	print 'Failed connecting to remote API server'
-print 'Program ended'
-
-'''
 

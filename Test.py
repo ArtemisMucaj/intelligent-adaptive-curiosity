@@ -94,12 +94,12 @@ def getTheGoodTree(Pbdd,action):
 def C2_criterion(BDD):
 	dim = 0
 	cutValue = 0
-	var = 1000000
+	var = -100000
 	medianes = median(BDD.data)
 	#print 'medianes =',medianes########################
 	for x in range(0,len(medianes)):
 		v = variance(BDD.data, x, medianes[x])
-		if(v < var):
+		if(v > var):
 			var = v
 			dim = x
 			cutValue = medianes[x]

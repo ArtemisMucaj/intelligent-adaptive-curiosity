@@ -55,6 +55,7 @@ def getTheGoodLE(Pbdd,action):
 	if Pbdd.dimCutVal == -1:
 		return Pbdd.LE
 	else:
+		#print 'dimCutVal =',Pbdd.dimCutVal,'action =',action##########
 		if action[Pbdd.dimCutVal] < Pbdd.cutval:
 			return getTheGoodLE(Pbdd.n1,action)
 			pass
@@ -96,12 +97,12 @@ def getTheGoodTree(Pbdd,action):
 def C2_criterion(BDD):
 	dim = 0
 	cutValue = 0
-	var = -100000
+	var = 100000
 	medianes = median(BDD.data)
 	#print 'medianes =',medianes########################
-	for x in range(0,len(medianes)):
+	for x in range(0,len(medianes)-1):
 		v = variance(BDD.data, x, medianes[x])
-		if(v > var):
+		if(v < var):
 			var = v
 			dim = x
 			cutValue = medianes[x]
@@ -130,19 +131,22 @@ def variance(data, dimension, separator):
 		#	pass
 
 	#print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
+	if count_1 == 0 or count_2 == 0:
+		return 100000
+		pass
 	m_1/=count_1
 	m_2/=count_2
 	m /= len(data)
 	return (1/2.0)*((m_1 - m)**2 + (m_2 - m)**2)
 
 def splitBDD(BDD):
-	if len(BDD.data) > 249:
+	if len(BDD.data) > c1-1:
 		#print type(BDD),type(BDD.cutval),type(BDD.dimCutVal),type(BDD.data),type(BDD.n1),type(BDD.n2),type(BDD.LE),type(BDD.LEM)################
 		cutVals = C2_criterion(BDD)
 		BDD.n1 = tree.node(-1,-1,[],None,None,[],[])
 		BDD.n2 = tree.node(-1,-1,[],None,None,[],[])
-		for x in range(0,249):
-			if(BDD.data[x][cutVals[1]] > cutVals[0]):
+		for x in range(0,c1-1):
+			if(BDD.data[x][cutVals[1]] <= cutVals[0]):
 				BDD.n1.data.append(BDD.data[x])
 			else:
 				BDD.n2.data.append(BDD.data[x])
@@ -168,6 +172,9 @@ def splitBDD(BDD):
 t=0
 delay = 150
 nbExemple = 20
+duree = 1000
+c1 = 250
+varKppv = 50
 
 err_world, worldHandle = vrep.simxGetObjectHandle(clientID,"world", vrep.simx_opmode_oneshot_wait)
 err_epuck, epuckHandle = vrep.simxGetObjectHandle(clientID,"ePuck", vrep.simx_opmode_oneshot_wait)
@@ -182,11 +189,13 @@ Pbdd = tree.node(-1,-1,[],None,None,[],[])
 MPbdd = []
 
 
-while t < 5000:
+while t < duree:
 
 
 
 	actions = []
+
+
 
 	if t==0:
 		err,epuck_position = vrep.simxGetObjectPosition(clientID, epuckHandle, -1, vrep.simx_opmode_streaming)
@@ -195,10 +204,12 @@ while t < 5000:
 		pass
 
 
+
 	#creation des actions
 	for i in range(0,nbExemple):
-		actions.append( [random.uniform(-5,5) , random.uniform(-5,5) , random.uniform(0,1)] )
+		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1)] )
 		pass
+
 
 	if t<delay:
 		#Action random
@@ -211,7 +222,7 @@ while t < 5000:
 		LP = []
 		for x in range(0,nbExemple):
 
-			Ep.append( kppv.kppv(actions[x], MPbdd,1) ) #### probleme de taille entre actions[x] et la base de MPbdd
+			Ep.append( kppv.kppv(actions[x], MPbdd,varKppv) ) #### probleme de taille entre actions[x] et la base de MPbdd
 
 			Emtplusun.append(moyenneMobile(getTheGoodLE(Pbdd,actions[x]),Ep[x],delay) )
 
@@ -235,8 +246,8 @@ while t < 5000:
 	T= getTheGoodTree(Pbdd,actionChoisie)
 
 
-	if len(T.data) > 2:
-		S_predicted = kppv.kppv(actionChoisie,T.data,2)
+	if len(T.data) > varKppv:
+		S_predicted = kppv.kppv(actionChoisie,T.data,varKppv)
 	else:
 		S_predicted = 0
 		pass
@@ -291,11 +302,42 @@ while t < 5000:
 	#time.sleep(1)
 	pass
 
-#tree.status(Pbdd,0)#################
+tree.status(Pbdd,0)#################
 
 superPlot(Pbdd)
 
 plt.show()
+
+
+
+while True:
+	actions = []
+	listS = []
+	for i in range(0,nbExemple):
+		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1)] )
+		T= getTheGoodTree(Pbdd,actions[i])
+		listS.append( [kppv.kppv(actions[i],T.data,varKppv), i])
+
+		pass
+
+	listS.sort()
+
+	actionChoisie = actions[listS[0][1]]
+
+	# On realise l'action
+	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
+	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
+	vec = sphere.sphere_controller(actionChoisie[2],epuck_position)
+
+
+
+	if isinstance(vec,type([])) and len(vec)!=0:
+		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
+		pass
+
+	pass
+
+
 
 vrep.simxFinish(clientID)
 

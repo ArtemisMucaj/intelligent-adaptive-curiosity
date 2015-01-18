@@ -3,7 +3,7 @@ import vrep
 import kppv
 import tree
 import random
-import sphere
+import toy
 from math import sqrt
 from copy import copy
 import time
@@ -182,7 +182,7 @@ def splitBDD(BDD):
 
 err_world, worldHandle = vrep.simxGetObjectHandle(clientID,"world", vrep.simx_opmode_oneshot_wait)
 err_epuck, epuckHandle = vrep.simxGetObjectHandle(clientID,"ePuck", vrep.simx_opmode_oneshot_wait)
-err_sphere, sphereHandle = vrep.simxGetObjectHandle(clientID,"Sphere", vrep.simx_opmode_oneshot_wait)
+err_toy, toyHandle = vrep.simxGetObjectHandle(clientID,"Sphere", vrep.simx_opmode_oneshot_wait)
 err_left,leftHandle = vrep.simxGetObjectHandle(clientID,"ePuck_leftJoint",vrep.simx_opmode_oneshot_wait)
 err_right,rightHandle = vrep.simxGetObjectHandle(clientID,"ePuck_rightJoint",vrep.simx_opmode_oneshot_wait)
 
@@ -262,23 +262,23 @@ while t < duree:
 	# On realise l'action
 	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
 	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
-	vec = sphere.sphere_controller(actionChoisie[2],epuck_position)
+	vec = toy.toy_controller(actionChoisie[2],epuck_position)
 
 
 
 	if isinstance(vec,type([])) and len(vec)!=0:
-		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
+		vrep.simxSetObjectPosition(clientID,toyHandle,-1,vec,vrep.simx_opmode_oneshot)
 		pass
 
 
 	# On calcule E(t)
 	if t ==0:
-		err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,sphereHandle, -1, vrep.simx_opmode_streaming)
+		err_toy, toyPosition = vrep.simxGetObjectPosition(clientID,toyHandle, -1, vrep.simx_opmode_streaming)
 	else:
-		err_sphere, spherePosition = vrep.simxGetObjectPosition(clientID,sphereHandle, -1, vrep.simx_opmode_buffer)
+		err_toy, toyPosition = vrep.simxGetObjectPosition(clientID,toyHandle, -1, vrep.simx_opmode_buffer)
 
 
-	S_calculated = sqrt((epuck_position[0] - spherePosition[0])**2 + (epuck_position[1] - spherePosition[1])**2)
+	S_calculated = sqrt((epuck_position[0] - toyPosition[0])**2 + (epuck_position[1] - toyPosition[1])**2)
 
 
 

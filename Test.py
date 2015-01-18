@@ -104,7 +104,7 @@ def C2_criterion(BDD):
 			dim = x
 			cutValue = medianes[x]
 		pass
-	print 'var =',var,'dim =',dim,'cutValue =',cutValue#####################
+	#print 'var =',var,'dim =',dim,'cutValue =',cutValue#####################
 	return [cutValue, dim]
 
 def variance(data, dimension, separator):
@@ -127,12 +127,10 @@ def variance(data, dimension, separator):
 		#	print data[x][dimension]
 		#	pass
 
-	print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
+	#print 'm_1 =',m_1,'m_2 =',m_2,'count_1 =',count_1,'count_2 =',count_2,'separator =',separator################
 	m_1/=count_1
 	m_2/=count_2
 	m /= len(data)
-	print 'm =',m##############
-	print (1/2.0)*((m_1 - m)**2 + (m_2 - m)**2)
 	return (1/2.0)*((m_1 - m)**2 + (m_2 - m)**2)
 
 def splitBDD(BDD):

@@ -19,6 +19,11 @@ class node(object):
 		print "data =",self.data
 		pass
 
+def status(tree,nbTab):
+	for x in range(0,nbTab):
+		print '    ',
+		pass
+	pass
 '''
 test = node(10,1,1,1)
 test.display()

@@ -27,7 +27,7 @@ def status(tree,nbTab):
 	for x in range(0,nbTab):
 		print '    ',
 		pass
-	print 'size data =',len(tree.data)
+	print 'size data =',len(tree.data),'size LE',len(tree.LE)
 	if tree.cutval != -1:
 		for x in range(0,nbTab):
 			print '    ',

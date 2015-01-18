@@ -180,7 +180,7 @@ Pbdd = tree.node(-1,-1,[],None,None,[],[])
 MPbdd = []
 
 
-while t < 1000:
+while t < 700:
 
 
 
@@ -289,6 +289,11 @@ while t < 1000:
 	#time.sleep(1)
 	pass
 
+tree.status(Pbdd,0)
+
+#superPlot(Pbdd)
+
+#plt.show()
 
 vrep.simxFinish(clientID)
 

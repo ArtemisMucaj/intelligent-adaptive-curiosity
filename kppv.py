@@ -1,5 +1,7 @@
-
-
+# Copyright 2015,  Jean-Baptiste Assouad et Artemis Mucaj
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
 def kppv(exemple,base,k):
 	dis = []
 	for i in range(0,len(base)):
@@ -24,8 +26,6 @@ def distance(u1,u2):
 
 '''
 exemple = [1,1,3]
-
 base = [ [1,2,2] , [2,3,-2] , [5,6,1] , [-1,0,2] ]
-
 print kppv(exemple,base,2)
 '''

@@ -1,3 +1,8 @@
+# Copyright 2015,  Jean-Baptiste Assouad et Artemis Mucaj
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+
 import random
 from math import sqrt
 

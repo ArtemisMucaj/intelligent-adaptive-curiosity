@@ -1,6 +1,11 @@
+# Copyright 2015,  Jean-Baptiste Assouad et Artemis Mucaj
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+
 # Tree structure for IAC algorithm
 class node(object):
-	"""docstring for node"""
+	"""node for tree stucture"""
 	def __init__(self, cutval,dimCutVal,data,n1,n2,LE,LEM):
 		super(node, self).__init__()
 		self.cutval = cutval
@@ -11,7 +16,6 @@ class node(object):
 		self.LE = LE
 		self.LEM = LEM
 
-
 	def display(self):
 		print "cutval =",self.cutval
 		print "n1 =",self.n1
@@ -19,6 +23,7 @@ class node(object):
 		print "data =",self.data
 		pass
 
+# Prints tree structure
 def status(tree,nbTab=0):
 	for x in range(0,nbTab):
 		print '    ',
@@ -45,6 +50,7 @@ def status(tree,nbTab=0):
 		pass
 	print nbTab,'>'
 	pass
+
 '''
 test = node(10,1,1,1)
 test.display()

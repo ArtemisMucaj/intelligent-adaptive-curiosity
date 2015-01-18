@@ -5,6 +5,7 @@ import tree
 import random
 import sphere
 from math import sqrt
+from copy import copy
 import time
 
 import matplotlib.pyplot as plt
@@ -149,15 +150,15 @@ def splitBDD(BDD):
 		BDD.cutval = cutVals[0]
 		BDD.dimCutVal = cutVals[1]
 
-		BDD.n1.LE = BDD.LE
-		BDD.n1.LEM = BDD.LEM
-		BDD.n2.LE = BDD.LE
-		BDD.n2.LEM = BDD.LEM
+		BDD.n1.LE = copy(BDD.LE)
+		BDD.n1.LEM = copy(BDD.LEM)
+		BDD.n2.LE = copy(BDD.LE)
+		BDD.n2.LEM = copy(BDD.LEM)
 
 		#supp de DATA LE et LEM du pere
 		BDD.LE = []
 		BDD.LEM = []
-		BDD.DATA = []
+		BDD.data = []
 	else:
 		pass
 

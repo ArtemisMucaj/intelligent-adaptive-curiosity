@@ -93,7 +93,7 @@ while t < duree:
 	if len(T.data) > varKppv:
 		S_predicted = kppv.kppv(actionChoisie,T.data,varKppv)
 	else:
-		S_predicted = 0.25
+		S_predicted = 0
 		pass
 
 	# On realise l'action dans VREP

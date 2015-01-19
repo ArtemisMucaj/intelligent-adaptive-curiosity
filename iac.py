@@ -156,35 +156,6 @@ tree.status(Pbdd,0)  ###########
 utilities.superPlot(Pbdd)
 plt.show()
 
-
-''' #############################################################
-while True:
-	actions = []
-	listS = []
-	for i in range(0,nbExemple):
-		actions.append( [random.uniform(-1,1) , random.uniform(-1,1) , random.uniform(0,1)] )
-		T= getTheGoodTree(Pbdd,actions[i])
-		listS.append( [kppv.kppv(actions[i],T.data,varKppv), i])
-
-		pass
-
-	listS.sort()
-
-	actionChoisie = actions[listS[0][1]]
-
-	# On realise l'action
-	vrep.simxSetJointTargetVelocity(clientID,leftHandle,actionChoisie[0],vrep.simx_opmode_oneshot)
-	vrep.simxSetJointTargetVelocity(clientID,rightHandle,actionChoisie[1],vrep.simx_opmode_oneshot)
-	vec = sphere.sphere_controller(actionChoisie[2],epuck_position)
-
-
-
-	if isinstance(vec,type([])) and len(vec)!=0:
-		vrep.simxSetObjectPosition(clientID,sphereHandle,-1,vec,vrep.simx_opmode_oneshot)
-		pass
-
-	pass
-#############################################################  '''
 # Fin de la simulation
 vrep.simxFinish(clientID)
 

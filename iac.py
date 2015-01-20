@@ -146,9 +146,6 @@ while t < duree:
 	#time.sleep(1)
 	pass
 
-if 1:
-	print 'Try me'
-	pass
 # Stops robot
 vrep.simxSetJointTargetVelocity(clientID,leftHandle,0,vrep.simx_opmode_oneshot)
 vrep.simxSetJointTargetVelocity(clientID,rightHandle,0,vrep.simx_opmode_oneshot)

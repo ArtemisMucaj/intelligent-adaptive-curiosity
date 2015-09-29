@@ -17,6 +17,7 @@ difficulty,avoiding situations in which nothing
 can be learnt.
 
 Please read 'intelligent_adaptive_curiosity.pdf'/IAC_Synthese.pdf for more details
+
 ===============================
 requirements
 ================================
